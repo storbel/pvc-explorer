@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PVC Browser</title>
+</head>
+<body>
+    <h1>PVC Contents Browser</h1>
+    <div id="content"></div>
+
+    <script>
+        async function loadFiles() {
+            try {
+                const response = await fetch('/list');
+                const data = await response.json();
+                
+                const contentDiv = document.getElementById('content');
+                contentDiv.innerHTML = `
+                    <h2>Path: ${data.path}</h2>
+                    <h3>Files:</h3>
+                    <ul>
+                        ${data.files.map(file => `<li>${file}</li>`).join('')}
+                    </ul>
+                `;
+            } catch (error) {
+                console.error('Error:', error);
+                contentDiv.innerHTML = 'Error loading file list';
+            }
+        }
+        
+        // Load files when page loads
+        loadFiles();
+    </script>
+</body>
+</html>
